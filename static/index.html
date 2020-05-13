@@ -8,30 +8,44 @@
                 text-align: center;
                 background-color: #F18C8E;
             }
-            .outer-grid {
+            .container { 
+                display: flex;
+                flex-wrap: wrap;
+                flex-align: flex-start;
+            }
+            .nine-way-grid {
                 display: grid;
-                grid-template-columns: auto;
+                grid-template-columns: auto auto auto;
                 grid-template-rows: auto auto auto;
-                grid-gap: 2em;
+                #grid-gap: 1px;
+                #line-height: 1;
+                #border-radius: 1em;
+                #border: medium solid;
+                #min-height: 1em;
+                #min-width: 1em;
+                font-size: xx-large;
+                align-self: flex-start;
             }
             .button, .cell{
-                line-height: 1;
-                padding: 2rem;
-                margin: 2rem;
+                #line-height: 1;
+                #padding: 2rem;
+                margin: 0.5em;
                 border: medium solid;
-                border-radius: 1em;
+                border-radius: 10px;
                 min-height: 1em;
                 min-width: 1em;
                 font-size: xx-large;
+                #align-self: flex-start;
                 
             }
             .button {
                 cursor: pointer;
                 user-select: none;
             }
-            .eyes{
+            .faces{
                 display: flex;
                 flex-wrap: wrap;
+                align-items: flex-start;
                 color:#F1D1B5;
                 background-color: #568EA6;
             }
@@ -47,21 +61,44 @@
         </style>
     </head>
     <body>
-        <div class="outer-grid">
-            <div class="cell eyes">
-                <div class="neutral button">&#128528</div>
-                <div class="wonky button">&#128534</div>
-                <div class="grin button">&#128512</div>
+        <div class="container">
+            <div  class="cell faces">
+                <div class="neutral face button">&#128528</div>
+                <div class="wonky face button">&#128534</div>
+                <div class="grin face button">&#128512</div>
             </div>
-            <div class="cell mouth">:-)</div>
+            <div class="cell container">
+                <div class="nine-way-grid">
+                    <div class="look button">&#8598;</div>
+                    <div class="look button">&#8593;</div>
+                    <div class="look button">&#8599;</div>
+                    <div class="look button">&#8592;</div>
+                    <div class="look button">&#11044;</div>
+                    <div class="look button">&#8594;</div>
+                    <div class="look button">&#8601;</div>
+                    <div class="look button">&#8595;</div>
+                    <div class="look button">&#8600;</div>
+                </div>
+                <div class="cell nine-way-grid">
+                    <div class="look button">1</div>
+                    <div class="look button">2</div>
+                    <div class="look button">3</div>
+                    <div class="look button">4</div>
+                    <div class="look button">5</div>
+                    <div class="look button">6</div>
+                    <div class="look button">7</div>
+                    <div class="look button">8</div>
+                    <div class="look button">9</div>
+                </div>
+            </div>
             <div class="cell controls">:-)</div>
         </div>
     <script>
         var current = null,
-            buttons = document.querySelectorAll(".button"), 
+            face_buttons = document.querySelectorAll(".face"), 
             websocket = new WebSocket("ws://" + window.location.hostname + ":6789/");
 
-        function handle_btn (event) {
+        function handle_face_btn (event) {
             if( current !== null){
                 current.style.backgroundColor = null;
             }
@@ -74,7 +111,7 @@
             console.log(face);
         }
 
-        buttons.forEach(element => element.onclick=handle_btn);
+        face_buttons.forEach(element => element.onclick=handle_face_btn);
     </script>
     </body>
 </html>

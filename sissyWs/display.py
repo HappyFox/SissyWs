@@ -145,15 +145,15 @@ class Display:
         }
 
         self.current_disp = {}
+        self.current_face = None
+        self.current_face_offset = [0,0]
 
-    def close(self):
-        pass
+    def add_pix_pending_list(self, pix_list, offset=(0, 0)):
+        for pix in pix_list:
+            color = self.colors[pix.color]
 
-    def set_primary_color(self, color):
-        self.colors[Color.PRIM] = color
-
-    def set_secondary_color(self, color):
-        self.colors[Color.SEC] = color
+            self.current_disp[pix.pos] = pix
+            self.set_pix(pix.x + offset[0], pix.y + offset[1], color)
 
     def clear(self):
         self.clear_list(self.current_disp.values())
@@ -167,18 +167,23 @@ class Display:
         for pix in pix_to_del:
             del self.current_disp[pix.pos]
 
+    def close(self):
+        pass
+
     def __enter__(self):
         pass
 
     def __exit__(self, type, value, traceback):
         pass
 
-    def add_pix_pending_list(self, pix_list):
-        for pix in pix_list:
-            color = self.colors[pix.color]
+    def look_left(self, dist=1):
+        pass
 
-            self.current_disp[pix.pos] = pix
-            self.set_pix(pix.x, pix.y, color)
+    def set_primary_color(self, color):
+        self.colors[Color.PRIM] = color
+
+    def set_secondary_color(self, color):
+        self.colors[Color.SEC] = color
 
     def show_face(self, face_key):
         face = sissyWs.display.FACES[face_key]
