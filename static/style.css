@@ -1,0 +1,97 @@
+body {
+    font-family: "Courier New", sans-serif;
+    text-align: center;
+    background-color: #F18C8E;
+    display: flex;
+    flex-direction: column;
+}
+
+.look-button{
+    border: medium solid;
+    border-radius: 10px;
+    margin: 0.5vmin;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+@media (orientation: portrait) {
+    .container { 
+        display: flex;
+        flex-wrap: wrap;
+        flex-align: flex-start;
+    }
+
+    .look-controls{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+
+    .look-button{
+        height: 9vh;
+        width: 9vh;
+        font-size:5vh;
+    }
+}
+
+@media (orientation: landscape) {
+    .container { 
+        display: flex;
+        flex-wrap: wrap;
+        flex-align: flex-start;
+        padding-left: 30vw;
+    }
+
+    .look-controls{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+    .look-button{
+        height: 9vw;
+        width: 9vw;
+        font-size:5vw;
+    }
+}
+
+.nine-way-grid{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
+    align-self: flex-start;
+}
+
+
+
+.button, .cell, .look-controls{
+    border: medium solid;
+    border-radius: 10px;
+    min-height: 1em;
+    min-width: 1em;
+    font-size: xx-large;
+    #align-self: flex-start;
+    
+}
+
+.button {
+    cursor: pointer;
+    user-select: none;
+}
+.faces{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    color:#F1D1B5;
+    background-color: #568EA6;
+}
+.wonky{
+    color:#F1D1B5;
+}
+.mouth{
+    color:green;
+}
+.controls{
+    color:blue;
+}
