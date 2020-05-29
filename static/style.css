@@ -1,71 +1,68 @@
+:root {
+  --main-bg-color: #ffde22;
+  --grouping-color: #ff414e;
+  --control-color: #ff8928;
+  --control-toggled: #ffffff
+  --highlight-color: #ffffff;
+
+  --control-gap: 1vmax;
+}
+
 body {
     font-family: "Courier New", sans-serif;
     text-align: center;
-    background-color: #F18C8E;
+    background-color: var(--main-bg-color);
     display: flex;
     flex-direction: column;
 }
 
 .look-button{
-    border: medium solid;
-    border-radius: 10px;
-    margin: 0.5vmin;
-
+    #margin: 0.25vmax;
     display:flex;
     justify-content:center;
     align-items:center;
+    height: 9vmax;
+    max-height:30vmin;
+    width: 9vmax;
+    font-size:5vmax;
+    background-color: var(--control-color);
+    color:var(--highlight-color);
 }
 
-@media (orientation: portrait) {
-    .container { 
-        display: flex;
-        flex-wrap: wrap;
-        flex-align: flex-start;
-    }
-
-    .look-controls{
-        position: fixed;
-        bottom: 0;
-        left: 0;
-    }
-
-    .look-button{
-        height: 9vh;
-        width: 9vh;
-        font-size:5vh;
-    }
+.container { 
+    display: flex;
+    flex-wrap: wrap;
+    flex-align: flex-start;
 }
+
+.look-controls{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+#@media (orientation: portrait) {
+#}
 
 @media (orientation: landscape) {
     .container { 
-        display: flex;
-        flex-wrap: wrap;
-        flex-align: flex-start;
-        padding-left: 30vw;
-    }
-
-    .look-controls{
-        position: fixed;
-        bottom: 0;
-        left: 0;
-    }
-    .look-button{
-        height: 9vw;
-        width: 9vw;
-        font-size:5vw;
+        padding-left: 33vw;
     }
 }
 
 .nine-way-grid{
     display: grid;
+    grid-gap: var(--control-gap);
+    max-height: 100vmin;
     grid-template-columns: auto auto auto;
     grid-template-rows: auto auto auto;
     align-self: flex-start;
+    background-color: var(--grouping-color);
+    border: var(--control-gap) solid;
+    border-color: var(--grouping-color);
 }
 
-
-
-.button, .cell, .look-controls{
+.button, .cell{
     border: medium solid;
     border-radius: 10px;
     min-height: 1em;
