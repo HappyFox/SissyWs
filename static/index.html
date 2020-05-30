@@ -7,7 +7,7 @@
     </head>
     <body>
         <div class="container">
-            <div  class="cell faces">
+            <div  class="faces">
                 <div class="neutral face button">&#128528</div>
                 <div class="wonky face button">&#128534</div>
                 <div class="grin face button">&#128512</div>
@@ -30,7 +30,8 @@
     <script>
         var current = null,
             face_buttons = document.querySelectorAll(".face"), 
-            websocket = new WebSocket("ws://" + window.location.hostname + ":6789/");
+            websocket = new WebSocket("ws://" + window.location.hostname + ":6789/"),
+            pressed_color = getComputedStyle(document.documentElement).getPropertyValue('--control-toggled');
 
         function handle_face_btn (event) {
             if( current !== null){
@@ -40,7 +41,7 @@
             const face = event.target.textContent;
             websocket.send(JSON.stringify({action: 'face', face: face}));
 
-            event.target.style.backgroundColor = "#305F72";
+            event.target.style.backgroundColor = pressed_color;
             current = event.target;
             console.log(face);
         }

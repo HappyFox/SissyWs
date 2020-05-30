@@ -1,8 +1,8 @@
 :root {
-  --main-bg-color: #ffde22;
-  --grouping-color: #ff414e;
-  --control-color: #ff8928;
-  --control-toggled: #ffffff
+  --main-bg-color: #fea49f;
+  --grouping-color: #101357;
+  --control-color: #00a0a0;
+  --control-toggled: #007575;
   --highlight-color: #ffffff;
 
   --control-gap: 1vmax;
@@ -27,6 +27,9 @@ body {
     font-size:5vmax;
     background-color: var(--control-color);
     color:var(--highlight-color);
+
+    cursor: pointer;
+    user-select: none;
 }
 
 .container { 
@@ -62,15 +65,15 @@ body {
     border-color: var(--grouping-color);
 }
 
-.button, .cell{
-    border: medium solid;
-    border-radius: 10px;
-    min-height: 1em;
-    min-width: 1em;
-    font-size: xx-large;
-    #align-self: flex-start;
+#.button, .cell{
+#    border: medium solid;
+#    border-radius: 10px;
+#    min-height: 1em;
+#    min-width: 1em;
+#    font-size: xx-large;
+#    #align-self: flex-start;
     
-}
+#}
 
 .button {
     cursor: pointer;
@@ -81,14 +84,18 @@ body {
     flex-wrap: wrap;
     align-items: flex-start;
     color:#F1D1B5;
-    background-color: #568EA6;
+    background-color: var(--grouping-color);
+    border: var(--control-gap) solid;
+    border-color: var(--grouping-color);
+    gap: var(--control-gap);
 }
-.wonky{
-    color:#F1D1B5;
-}
-.mouth{
-    color:green;
-}
-.controls{
-    color:blue;
+
+.face{
+
+    font-size:5vmax;
+    padding: 2vmin;
+    background-color: var(--control-color);
+    color:var(--highlight-color);
+    cursor: pointer;
+    user-select: none;
 }
