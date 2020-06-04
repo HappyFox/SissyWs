@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable = no">
     <head>
         <title>WebSocket demo</title>
         <link rel="stylesheet" href="style.css">
     </head>
-    <body>
+    <body >
         <div class="container">
             <div  class="faces">
                 <div class="neutral face button">&#128528</div>
@@ -16,7 +16,7 @@
 
         <div class="look-controls">
             <div class="nine-way-grid">
-                <div class="look-button">&#8598;</div>
+                <div class="look-button" ontouchstart="handle_look_touch_start(event)" >&#8598;</div>
                 <div class="look-button">&#8593;</div>
                 <div class="look-button">&#8599;</div>
                 <div class="look-button">&#8592;</div>
@@ -28,10 +28,41 @@
             </div>
         </div>
     <script>
-        var current = null,
-            face_buttons = document.querySelectorAll(".face"), 
-            websocket = new WebSocket("ws://" + window.location.hostname + ":6789/"),
-            pressed_color = getComputedStyle(document.documentElement).getPropertyValue('--control-toggled');
+        let current = null;
+        const face_buttons = document.querySelectorAll(".face"), 
+              look_buttons = document.querySelectorAll(".look-button"), 
+              websocket = new WebSocket("ws://" + window.location.hostname + ":6789/"),
+              pressed_color = getComputedStyle(document.documentElement).getPropertyValue('--control-toggled');
+
+        const on_move_handlers = new Map();
+        const on_stop_handlers = new Map(); 
+
+        function on_touch (event) {
+            let touches = event.changedTouches;
+            
+            console.log(event.type);
+
+            let handlers = null;
+            if (event.type == "touchend") {
+                event.preventDefault();
+                handlers = on_stop_handlers;
+            } else if (event.type == "touchmove") {
+                handlers = on_move_handlers;
+            } else {
+                console.log("returning!");
+                return;
+            }
+
+            for (let idx = 0; idx < touches.length; idx++) { 
+                let touch = touches[idx];
+                if (handlers.has(touch.identifier)) {
+                    handlers.get(touch.identifier)(touch);
+                }
+            }
+        }
+
+        document.addEventListener("touchmove", on_touch, false);
+        document.addEventListener("touchend", on_touch, false);
 
         function handle_face_btn (event) {
             if( current !== null){
@@ -46,7 +77,52 @@
             console.log(face);
         }
 
+        function start_look(target){
+            const direction = target.textContent;
+            console.log("Start looking : " + direction);
+            target.style.backgroundColor = pressed_color;
+        }
+
+        function stop_look(target){
+            const direction = target.textContent;
+            console.log("Stop looking : " + direction);
+            target.style.backgroundColor = null;
+        }
+
+        function handle_look_touch_start (event) {
+            console.log("TOUCH START!");
+            console.log(event.changedTouches[0].identifier);
+            event.preventDefault();
+
+            const target = event.target;
+            start_look(target);
+
+            function handle_stop(touch){
+                console.log(touch.identifier);
+                stop_look(target);
+                on_stop_handlers.delete(touch.identifier);
+            }
+            
+            on_stop_handlers.set(event.changedTouches[0].identifier, handle_stop);
+            
+        }
+
+        function handle_look_touch_end (event) {
+            console.log("TOUCH END!");
+            console.log(event.changedTouches[0].identifier);
+            event.preventDefault();
+        }
+
+        function bind_look_handers( button ) {
+            console.log("binding ! : " +button);
+            button.addEventListener("touchstart", handle_look_touch_start, false);
+            //button.onmousedown = handle_look_touch_start;
+
+            //button.addEventListener("touchend", handle_look_touch_end, false);
+            //button.addEventListener("touchcancel", handle_look_touch_end, false);
+        }
         face_buttons.forEach(element => element.onclick=handle_face_btn);
+        look_buttons.forEach(element => bind_look_handers(element));
     </script>
     </body>
 </html>

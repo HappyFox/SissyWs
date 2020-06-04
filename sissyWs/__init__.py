@@ -11,7 +11,12 @@ def set_face(data):
     display.show_face(data["face"])
 
 
-handlers = {"face": set_face}
+def look_direction(data):
+    display = sissyWs.display.get_display()
+    display.look_direction(data["direction"])
+
+
+handlers = {"face": set_face, "look": look_direction}
 
 
 async def dispatcher(websocket, path):

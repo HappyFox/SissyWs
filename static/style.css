@@ -40,8 +40,8 @@ body {
 
 .look-controls{
     position: fixed;
-    bottom: 0;
-    left: 0;
+    bottom: var(--control-gap);
+    left: var(--control-gap);
 }
 
 #@media (orientation: portrait) {
@@ -52,7 +52,6 @@ body {
         padding-left: 33vw;
     }
 }
-
 .nine-way-grid{
     display: grid;
     grid-gap: var(--control-gap);
@@ -64,17 +63,6 @@ body {
     border: var(--control-gap) solid;
     border-color: var(--grouping-color);
 }
-
-#.button, .cell{
-#    border: medium solid;
-#    border-radius: 10px;
-#    min-height: 1em;
-#    min-width: 1em;
-#    font-size: xx-large;
-#    #align-self: flex-start;
-    
-#}
-
 .button {
     cursor: pointer;
     user-select: none;
@@ -89,9 +77,7 @@ body {
     border-color: var(--grouping-color);
     gap: var(--control-gap);
 }
-
 .face{
-
     font-size:5vmax;
     padding: 2vmin;
     background-color: var(--control-color);

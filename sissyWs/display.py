@@ -117,7 +117,8 @@ FACES = {
             Pixel(10, 14, Color.PRIM),
             Pixel(11, 14, Color.PRIM),
         ],
-    ),}
+    ),
+}
 
 
 def get_display():
@@ -146,7 +147,7 @@ class Display:
 
         self.current_disp = {}
         self.current_face = None
-        self.current_face_offset = [0,0]
+        self.current_face_offset = [0, 0]
 
     def add_pix_pending_list(self, pix_list, offset=(0, 0)):
         for pix in pix_list:
@@ -176,8 +177,8 @@ class Display:
     def __exit__(self, type, value, traceback):
         pass
 
-    def look_left(self, dist=1):
-        pass
+    def look_left(self, direction):
+        print(direction)
 
     def set_primary_color(self, color):
         self.colors[Color.PRIM] = color
@@ -203,7 +204,6 @@ class TermDisplay(Display):
         self.term = blessed.Terminal()
 
         self.pending_text = ""
-
 
     def _draw_border(self):
         for idx in range(self.SIZE_X + 2):  # plus 2 for the border
