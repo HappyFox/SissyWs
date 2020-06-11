@@ -14,6 +14,8 @@ def set_face(data):
 def look_direction(data):
     display = sissyWs.display.get_display()
     display.look_direction(data["direction"])
+    ps = 1
+    print(ps)
 
 
 handlers = {"face": set_face, "look": look_direction}
