@@ -1,12 +1,12 @@
 
-class TouchManager {
+export class TouchManager {
   constructor () {
     this.onMoveHandlers = new Map()
     this.onStopHandlers = new Map()
 
-    document.addEventListener('touchmove', this.onMove, false)
-    document.addEventListener('touchend', this.onEnd, false)
-    document.addEventListener('touchcancel', this.onEnd, false)
+    document.addEventListener('touchmove', (event) => this.onMove(event), false)
+    document.addEventListener('touchend', (event) => this.onEnd(event), false)
+    document.addEventListener('touchcancel', (event) => this.onEnd(event), false)
   }
 
   onMove (event) {
