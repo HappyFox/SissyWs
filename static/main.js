@@ -61,22 +61,23 @@ function start_look (target) {
   target.style.backgroundColor = pressedColor
 }
 
-function stop_look (target) {
+function stop_look (touch) {
+  const target = touch.target
   const direction = target.textContent
   console.log('Stop looking : ' + direction)
   target.style.backgroundColor = null
 }
 
 
-function handle_look_touch_start (event) {
+function handle_look_touch_start (event2) {
   console.log('TOUCH START!')
-  console.log(event.changedTouches[0].identifier)
-  event.preventDefault()
+  console.log(event2.changedTouches[0].identifier)
+  event2.preventDefault()
 
-  const target = event.target
+  const target = event2.target
   start_look(target)
   
-  const touch = event.changedTouches[0]
+  const touch = event2.changedTouches[0]
 
   touchManager.register(touch.identifier, { onStop:stop_look })
   //function handle_stop (touch) {
@@ -94,7 +95,7 @@ function handle_look_touch_end (event) {
   event.preventDefault()
 }
 
-function bind_look_handers (button) {
+function bind_look_handers (button, idx, array) {
   console.log('binding ! : ' + button)
   button.addEventListener('touchstart', handle_look_touch_start, false)
   // button.onmousedown = handle_look_touch_start;
@@ -102,5 +103,5 @@ function bind_look_handers (button) {
   // button.addEventListener("touchend", handle_look_touch_end, false);
   // button.addEventListener("touchcancel", handle_look_touch_end, false);
 }
-faceButtons.forEach((element) => element.onclick = handle_face_btn)
-lookButtons.forEach((element) => bind_look_handers(element))
+faceButtons.forEach((element, _, __) => element.onclick = handle_face_btn)
+lookButtons.forEach(bind_look_handers)
