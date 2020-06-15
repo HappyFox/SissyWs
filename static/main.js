@@ -1,6 +1,7 @@
 /* global querySelectorAll WebSocket getComputedStyle */
 
-import { TouchManager } from './touch_manager.js'
+// import { TouchManager } from './touch_manager.js'
+import { Button } from './button.js'
 
 let current = null
 const faceButtons = document.querySelectorAll('.face')
@@ -8,7 +9,7 @@ const lookButtons = document.querySelectorAll('.look-button')
 const websocket = new WebSocket('ws://' + window.location.hostname + ':6789/')
 const pressedColor = getComputedStyle(document.documentElement).getPropertyValue('--control-toggled')
 
-const touchManager = new TouchManager()
+// const touchManager = new TouchManager()
 
 function handleFaceButton (event) {
   if (current !== null) {
@@ -36,15 +37,15 @@ function stopLook (touch) {
   target.style.backgroundColor = null
 }
 
-function handleLookTouchStart (event2) {
+function handleLookTouchStart (event) {
   console.log('TOUCH START!')
   console.log(event2.changedTouches[0].identifier)
-  event2.preventDefault()
+  event.preventDefault()
 
-  const target = event2.target
+  const target = event.target
   start_look(target)
 
-  const touch = event2.changedTouches[0]
+  const touch = event.changedTouches[0]
 
   touchManager.register(touch.identifier, { onStop: stopLook })
   // function handle_stop (touch) {
@@ -70,5 +71,10 @@ function bind_look_handers (button, idx, array) {
   // button.addEventListener("touchend", handleLookTouchEnd, false);
   // button.addEventListener("touchcancel", handleLookTouchEnd, false);
 }
+
+function bindButtons (button, idx, array) {
+  var button_ = new Button(button, {}) 
+}
 faceButtons.forEach((element, _, __) => element.onclick = handleFaceButton)
-lookButtons.forEach(bind_look_handers)
+//lookButtons.forEach(bind_look_handers)
+lookButtons.forEach(bindButtons)

@@ -1,3 +1,8 @@
+export class MouseManager {
+  constructor () {
+  }
+
+}
 
 export class TouchManager {
   constructor () {
