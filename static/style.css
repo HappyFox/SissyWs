@@ -6,6 +6,7 @@
   --highlight-color: #ffffff;
 
   --control-gap: 1vmax;
+  touch-action: none;
 }
 
 body {
@@ -32,7 +33,7 @@ body {
     user-select: none;
 }
 
-.container { 
+.container {
     display: flex;
     flex-wrap: wrap;
     flex-align: flex-start;
@@ -48,7 +49,7 @@ body {
 #}
 
 @media (orientation: landscape) {
-    .container { 
+    .container {
         padding-left: 33vw;
     }
 }
