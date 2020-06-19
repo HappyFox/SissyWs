@@ -1,5 +1,5 @@
 
-function inSideElement(element, x, y) {
+function inSideElement (element, x, y) {
   const rect = element.getBoundingClientRect()
   if (x > rect.x && x < rect.right) {
     if (y > rect.y && y < rect.bottom) {

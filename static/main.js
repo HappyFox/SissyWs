@@ -1,15 +1,18 @@
-/* global WebSocket getComputedStyle */
+/* global getComputedStyle */
 
 // import { TouchManager } from './touch_manager.js'
 import { ClickButton, HoldButton } from './button.js'
+import { BotProxy } from './bot_proxy.js'
 
 let current = null
 const faceButtons = document.querySelectorAll('.face')
 const lookButtons = document.querySelectorAll('.look-button')
-const websocket = new WebSocket('ws://' + window.location.hostname + ':6789/')
-const pressedColor = getComputedStyle(document.documentElement).getPropertyValue('--control-toggled')
 
-// const touchManager = new TouchManager()
+// const websocket = new WebSocket('ws://' + window.location.hostname + ':6789/')
+
+const bot = new BotProxy()
+
+const pressedColor = getComputedStyle(document.documentElement).getPropertyValue('--control-toggled')
 
 function handleFaceButton (event) {
   if (current !== null) {
@@ -17,7 +20,8 @@ function handleFaceButton (event) {
   }
 
   const face = event.target.textContent
-  websocket.send(JSON.stringify({ action: 'face', face: face }))
+
+  bot.setFace(face)
 
   event.target.style.backgroundColor = pressedColor
   current = event.target
@@ -27,14 +31,20 @@ function handleFaceButton (event) {
 function startLook (event) {
   const target = event.target
   const direction = target.textContent
+
   console.log('Start looking : ' + direction)
+  bot.setLook(direction)
+
   target.style.backgroundColor = pressedColor
 }
 
 function stopLook (event) {
   const target = event.target
   const direction = target.textContent
+
   console.log('Stop looking : ' + direction)
+  bot.clearLook()
+
   target.style.backgroundColor = null
 }
 
@@ -46,6 +56,5 @@ function bindFaceButtons (button, idx, array) {
   new ClickButton(button, handleFaceButton)
 }
 
-// faceButtons.forEach((element, _, __) => element.onclick = handleFaceButton)
 faceButtons.forEach(bindFaceButtons)
 lookButtons.forEach(bindLookButtons)
