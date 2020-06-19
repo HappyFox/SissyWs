@@ -17,15 +17,21 @@ class Color(enum.Enum):
     SEC = 2
 
 
+Point = collections.namedtuple("Point", ["x", "y"])
+
+
 class Pixel:
     def __init__(self, x, y, color):
         self.x = x
         self.y = y
         self.color = color
 
-    @property
-    def pos(self):
-        return (self.x, self.y)
+    def pos(self, offset=None):
+        if offset:
+            x = self.x + offset.x
+            y = self.y + offset.y
+            return Point(x, y)
+        return Point(self.x, self.y)
 
 
 Face = collections.namedtuple("Face", ["eyes", "rest"])
@@ -121,6 +127,19 @@ FACES = {
 }
 
 
+LOOK_OFFSETS = {
+    "↖": Point(-1, -1),
+    "↑": Point(0, -1),
+    "↗": Point(1, -1),
+    "→": Point(1, 0),
+    "↘": Point(1, 1),
+    "↓": Point(0, 1),
+    "↙": Point(-1, 1),
+    "←": Point(-1, 0),
+    "⬤": Point(0, 0),
+}
+
+
 def get_display():
     if rpi_ws281x:
         return NeoDisplay.get_display()
@@ -145,28 +164,23 @@ class Display:
             Color.SEC: (125, 125, 125),
         }
 
-        self.current_disp = {}
+        self.current_display = set()
         self.current_face = None
-        self.current_face_offset = [0, 0]
+        self.current_face_offset = Point(0, 0)
 
-    def add_pix_pending_list(self, pix_list, offset=(0, 0)):
+    def add_pix_pending_list(self, pix_list, offset=Point(0, 0)):
         for pix in pix_list:
             color = self.colors[pix.color]
 
-            self.current_disp[pix.pos] = pix
-            self.set_pix(pix.x + offset[0], pix.y + offset[1], color)
+            position = pix.pos(offset)
+            self.current_display.add(position)
+            self.set_pix(position.x, position.y, color)
 
     def clear(self):
-        self.clear_list(self.current_disp.values())
-
-    def clear_list(self, list_):
-        pix_to_del = []
-        for pix in list_:
-            pix_to_del.append(self.current_disp[pix.pos])
+        for pix in self.current_display:
             self.clear_pix(pix.x, pix.y)
 
-        for pix in pix_to_del:
-            del self.current_disp[pix.pos]
+        self.current_display.clear()
 
     def close(self):
         pass
@@ -187,11 +201,25 @@ class Display:
         self.colors[Color.SEC] = color
 
     def show_face(self, face_key):
-        face = sissyWs.display.FACES[face_key]
+        self.current_face = sissyWs.display.FACES[face_key]
+        self.draw_face()
+
+    def draw_face(self):
         self.clear()
-        self.add_pix_pending_list(face.eyes)
-        self.add_pix_pending_list(face.rest)
+        self.add_pix_pending_list(self.current_face.eyes, self.current_face_offset)
+        self.add_pix_pending_list(self.current_face.rest)
         self.show()
+
+    def look_direction(self, direction):
+        self.current_face_offset = LOOK_OFFSETS[direction]
+        self.draw_face()
+
+    def look_clear(self):
+        self.current_face_offset = Point(0, 0)
+        self.draw_face()
+
+    def show(self):
+        raise NotImplementedError()
 
 
 class TermDisplay(Display):

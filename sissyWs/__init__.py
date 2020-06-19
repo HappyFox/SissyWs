@@ -1,6 +1,5 @@
 import asyncio
 import json
-import logging
 import websockets
 
 import sissyWs.display
@@ -14,11 +13,14 @@ def set_face(data):
 def look_direction(data):
     display = sissyWs.display.get_display()
     display.look_direction(data["direction"])
-    ps = 1
-    print(ps)
 
 
-handlers = {"face": set_face, "look": look_direction}
+def look_clear(data):
+    display = sissyWs.display.get_display()
+    display.look_clear()
+
+
+handlers = {"face": set_face, "look": look_direction, "clearLook": look_clear}
 
 
 async def dispatcher(websocket, path):

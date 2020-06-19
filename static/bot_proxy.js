@@ -13,7 +13,7 @@ export class BotProxy {
 
   setLook (direction) {
     if (this.websocket.readyState === WebSocket.OPEN) {
-      this.websocket.send(JSON.stringify({ action: 'look', face: direction }))
+      this.websocket.send(JSON.stringify({ action: 'look', direction: direction }))
     }
   }
 
