@@ -37,6 +37,8 @@ body {
     display: flex;
     flex-wrap: wrap;
     flex-align: flex-start;
+    flex-direction: row;
+    gap: var(--control-gap);
 }
 
 .look-controls{
@@ -67,6 +69,13 @@ body {
 .button {
     cursor: pointer;
     user-select: none;
+    border: 2vmin solid;
+    border-color: var(--control-color);
+    height: 7vmax;
+    width: 7vmax;
+    font-size:5vmax;
+    background-color: var(--control-color);
+    color:var(--highlight-color);
 }
 .faces{
     display: flex;
@@ -78,11 +87,18 @@ body {
     border-color: var(--grouping-color);
     gap: var(--control-gap);
 }
-.face{
-    font-size:5vmax;
-    padding: 2vmin;
-    background-color: var(--control-color);
-    color:var(--highlight-color);
-    cursor: pointer;
-    user-select: none;
+.red{
+    background-color: red;
+}
+.green{
+    background-color: green;
+}
+.blue{
+    background-color: blue;
+}
+.yellow{
+    background-color: yellow;
+}
+.orange{
+    background-color: orange;
 }

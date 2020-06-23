@@ -17,6 +17,7 @@ const pressedColor = getComputedStyle(document.documentElement).getPropertyValue
 function handleFaceButton (event) {
   if (current !== null) {
     current.style.backgroundColor = null
+    current.style.borderColor = null
   }
 
   const face = event.target.textContent
@@ -24,6 +25,7 @@ function handleFaceButton (event) {
   bot.setFace(face)
 
   event.target.style.backgroundColor = pressedColor
+  event.target.style.borderColor = pressedColor
   current = event.target
   console.log(face)
 }
