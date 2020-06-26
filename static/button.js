@@ -127,3 +127,27 @@ export class HoldButton {
     }
   }
 }
+
+export class RadioButtons {
+  constructor (elements, onSelect, onDeSelect) {
+    // this.elements = elements
+    this.buttons = []
+    this.onSelect = onSelect
+    this.onDeSelect = onDeSelect
+
+    this.currentSelected = undefined
+
+    for (const element of elements) {
+      const button = new ClickButton(element, (event) => this.onClick(event))
+      this.buttons.push(button)
+    }
+  }
+
+  onClick (event) {
+    if (typeof this.currentSelected !== 'undefined') {
+      this.onDeSelect(this.currentSelected)
+    }
+    this.onSelect(event.target)
+    this.currentSelected = event.target
+  }
+}

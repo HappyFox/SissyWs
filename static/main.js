@@ -1,18 +1,26 @@
 /* global getComputedStyle */
 
-// import { TouchManager } from './touch_manager.js'
-import { ClickButton, HoldButton } from './button.js'
+import { ClickButton, HoldButton, RadioButtons } from './button.js'
 import { BotProxy } from './bot_proxy.js'
 
 let current = null
 const faceButtons = document.querySelectorAll('.face')
 const lookButtons = document.querySelectorAll('.look-button')
-
-// const websocket = new WebSocket('ws://' + window.location.hostname + ':6789/')
+const colorElements = document.querySelectorAll('.color')
 
 const bot = new BotProxy()
 
 const pressedColor = getComputedStyle(document.documentElement).getPropertyValue('--control-toggled')
+
+function onColorSelect (target) {
+  target.style.borderColor = pressedColor
+}
+
+function onColorDeSelect (target) {
+  target.style.borderColor = null
+}
+
+const colorButtons = new RadioButtons(colorElements, onColorSelect, onColorDeSelect)
 
 function handleFaceButton (event) {
   if (current !== null) {
