@@ -4,7 +4,7 @@ import { ClickButton, HoldButton, RadioButtons } from './button.js'
 import { BotProxy } from './bot_proxy.js'
 
 let current = null
-const faceButtons = document.querySelectorAll('.face')
+const faceElements = document.querySelectorAll('.face')
 const lookButtons = document.querySelectorAll('.look-button')
 const colorElements = document.querySelectorAll('.color')
 
@@ -14,6 +14,13 @@ const pressedColor = getComputedStyle(document.documentElement).getPropertyValue
 
 function onColorSelect (target) {
   target.style.borderColor = pressedColor
+
+  const colorStr = window.getComputedStyle(target, null).getPropertyValue('background-color')
+  console.log("setting color : " + colorStr)
+  const rgbStr = colorStr.slice(4, -1)
+  const rgb = rgbStr.split(',').map(x => parseInt(x))
+
+  bot.setColor(rgb[0], rgb[1], rgb[2])
 }
 
 function onColorDeSelect (target) {
@@ -22,21 +29,20 @@ function onColorDeSelect (target) {
 
 const colorButtons = new RadioButtons(colorElements, onColorSelect, onColorDeSelect)
 
-function handleFaceButton (event) {
-  if (current !== null) {
-    current.style.backgroundColor = null
-    current.style.borderColor = null
-  }
+function onFaceSelect (target) {
+  target.style.backgroundColor = pressedColor
+  target.style.borderColor = pressedColor
 
-  const face = event.target.textContent
-
+  const face = target.textContent
   bot.setFace(face)
-
-  event.target.style.backgroundColor = pressedColor
-  event.target.style.borderColor = pressedColor
-  current = event.target
-  console.log(face)
 }
+
+function onFaceDeSelect (target) {
+  target.style.backgroundColor = null
+  target.style.borderColor = null
+}
+
+const faceButtons = new RadioButtons(faceElements, onFaceSelect, onFaceDeSelect)
 
 function startLook (event) {
   const target = event.target
@@ -62,9 +68,4 @@ function bindLookButtons (button, idx, array) {
   new HoldButton(button, startLook, stopLook)
 }
 
-function bindFaceButtons (button, idx, array) {
-  new ClickButton(button, handleFaceButton)
-}
-
-faceButtons.forEach(bindFaceButtons)
 lookButtons.forEach(bindLookButtons)

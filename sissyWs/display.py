@@ -196,9 +196,11 @@ class Display:
 
     def set_primary_color(self, color):
         self.colors[Color.PRIM] = color
+        self.draw_face()
 
     def set_secondary_color(self, color):
         self.colors[Color.SEC] = color
+        self.draw_face()
 
     def show_face(self, face_key):
         self.current_face = sissyWs.display.FACES[face_key]

@@ -11,6 +11,12 @@ export class BotProxy {
     }
   }
 
+  setColor (red, green, blue) {
+    if (this.websocket.readyState === WebSocket.OPEN) {
+      this.websocket.send(JSON.stringify({ action: 'setColor', red: red, green: green, blue: blue }))
+    }
+  }
+
   setLook (direction) {
     if (this.websocket.readyState === WebSocket.OPEN) {
       this.websocket.send(JSON.stringify({ action: 'look', direction: direction }))

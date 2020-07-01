@@ -20,7 +20,17 @@ def look_clear(data):
     display.look_clear()
 
 
-handlers = {"face": set_face, "look": look_direction, "clearLook": look_clear}
+def set_color(data):
+    display = sissyWs.display.get_display()
+    display.set_primary_color((data["red"], data["green"], data["blue"]))
+
+
+handlers = {
+    "face": set_face,
+    "look": look_direction,
+    "clearLook": look_clear,
+    "setColor": set_color,
+}
 
 
 async def dispatcher(websocket, path):
